@@ -4,18 +4,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfImport;
 import config.AppCtx;
 import spring.Assembler;
 import spring.ChangePasswordService;
 import spring.DuplicateMemberException;
+import spring.MemberInfoPrinter;
 import spring.MemberListPrinter;
 import spring.MemberNotFoundException;
 import spring.MemberRegisterService;
 import spring.RegisterRequest;
+import spring.VersionPrinter;
 import spring.WrongIdPasswordException;
+import spring.MemberPrinter;
 
 public class MainForSpring {
 	
@@ -23,7 +28,7 @@ public class MainForSpring {
 	
 	public static void main(String[] args) throws IOException {
 		
-		ctx = new AnnotationConfigApplicationContext(AppCtx.class);
+		ctx = new AnnotationConfigApplicationContext(AppConfImport.class);
 		
 		BufferedReader reader = 
 				new BufferedReader(new InputStreamReader(System.in));
@@ -43,9 +48,37 @@ public class MainForSpring {
 			} else if (command.equals("list")) {
 				processListCommand();
 				continue;
+			} else if (command.startsWith("info")) {
+				processInfoCommand(command.split(" "));
+				continue;
+			} else if (command.equals("version")) {
+				processVersionCommand();
+				continue;
 			}
 			printHelp();
 		}
+	}
+
+
+	private static void processVersionCommand() {
+		// TODO Auto-generated method stub
+		VersionPrinter versionPrinter = ctx.getBean("versionPrinter", VersionPrinter.class);
+		versionPrinter.print();
+		
+	}
+
+
+	private static void processInfoCommand(String[] arg) {
+		// TODO Auto-generated method stub
+		if(arg.length != 2) {
+			printHelp();
+			return;
+		}
+		
+		MemberInfoPrinter infoPrinter = ctx.getBean("infoPrinter",MemberInfoPrinter.class);
+		infoPrinter.printMemberInfo(arg[1]);
+		
+		
 	}
 
 
