@@ -16,7 +16,7 @@ public class AppCtx {
 		return client;
 	}
 	
-	@Bean(initMethod="connect", destroyMethod="close")
+	@Bean(destroyMethod="close")
 	public Client2 client2() {
 		Client2 client = new Client2();
 		client.setHost("host");
