@@ -2,12 +2,23 @@ package controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import spring.DuplicateMemberException;
+import spring.MemberRegisterService;
+import spring.RegisterRequest;
+
 @Controller
 public class RegisterController {
+	
+	private MemberRegisterService memberRegisterService;
+	
+	public void setMemberRegisterService(MemberRegisterService memberReigsterService) {
+		this.memberRegisterService = memberReigsterService;
+	}
 	
 	@RequestMapping("/register/step1")
 	public String handleStep1() {
@@ -27,5 +38,15 @@ public class RegisterController {
 	@GetMapping("/register/step2")
 	public String handleStep2Get() {
 		return "redirect:/register/step1";
+	}
+	
+	@PostMapping("/register/step3")
+	public String handleStep3(@ModelAttribute("formData")RegisterRequest regReq) {
+		try {
+			memberRegisterService.regist(regReq);
+			return "register/step3";
+		}catch(DuplicateMemberException e) {
+			return "register/step2";
+		}
 	}
 }

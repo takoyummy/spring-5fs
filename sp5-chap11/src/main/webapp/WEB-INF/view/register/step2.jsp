@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>회원 정보 입력</h2>
-<%--     <form:form action="step3" modelAttribute="registerRequest">
+ <form:form action="step3" modelAttribute="registerRequest">
     <p>
         <label>이메일:<br>
         <form:input path="email" />
@@ -29,10 +29,10 @@
         </label>
     </p>
     <input type="submit" value="가입 완료">
-    </form:form> --%>
+    </form:form>
 
 
-    <form action="step3" method="post">
+    <%-- <form action="step3" method="post">
     <p>
         <label>이메일:<br>
         <input type="text" name="email" id="email" value="${registerRequest.email}">
@@ -54,7 +54,7 @@
         </label>
     </p>
     <input type="submit" value="가입 완료">
-    </form>
-
+    </form> --%>
+ 
 </body>
 </html>
